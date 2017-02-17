@@ -1,6 +1,8 @@
+
+
 function generateringComponent(vardata, vargeodata){
 
-  var lookup = genLookup(vargeodata) ;
+  var lookUp = genLookup(vargeodata) ;
 
   var chPhase = dc.rowChart('#phase') ;
   var chTrend = dc.rowChart('#trend') ;
@@ -33,9 +35,9 @@ function generateringComponent(vardata, vargeodata){
            .height(330)
            .dimension(chTrendDim)
            .group(chTrendGroupe);
-          //  .data(function (d) {
-          //    return d.value ;
-          //  });
+    //        .data(function (d) {
+    //          return d.value ;
+    //        });
 
   dc.dataCount('count-info')
     .dimension(cf)
@@ -58,9 +60,9 @@ function generateringComponent(vardata, vargeodata){
                }
              })
              .featureKeyAccessor(function (feature){
-               return feature.properties['rowcacode2'];
+               return feature.properties['Rowcacode2'];
              }).popup(function (d){
-               return lookup[d.key];
+               return lookUp[d.key];
              })
              .renderPopup(true);
 
@@ -78,10 +80,12 @@ function generateringComponent(vardata, vargeodata){
       function genLookup(geojson) {
         var lookup = {} ;
         geojson.features.forEach(function (e) {
-          lookup[e.properties['rowcacode2']] = String(e.properties['adm2']);
+          lookup[e.properties['Rowcacode2']] = String(e.properties['adm2']);
         });
         return lookup ;
       }
+
+
 }
 
 var dataCall = $.ajax({
@@ -100,7 +104,7 @@ var geomCall = $.ajax({
 $.when(dataCall, geomCall).then(function(dataArgs, geomArgs){
     var geom = geomArgs[0];
     geom.features.forEach(function(e){
-        e.properties['rowcacode2'] = String(e.properties['rowcacode2']);
+        e.properties['Rowcacode2'] = String(e.properties['Rowcacode2']);
     });
     generateringComponent(dataArgs[0],geom);
 });
