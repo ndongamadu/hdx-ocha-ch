@@ -15,7 +15,7 @@ function generateringComponent(vardata, vargeodata){
 
   //graphe trend
 
-    var chTrendDim = cf.dimension(function (d) { return d.country}) ;
+    var chTrendDim = cf.dimension(function (d) { return d.rowcacode2}) ;
     var chTrendGroupe = chTrendDim.group().reduceSum( function (d) { return d.phase2}) ;
 
   // carte
@@ -30,9 +30,12 @@ function generateringComponent(vardata, vargeodata){
               .group(chPhaseGroupe) ;
 
     chTrend.width(450)
-           .height(320)
+           .height(330)
            .dimension(chTrendDim)
-           .group(chTrendGroupe) ;
+           .group(chTrendGroupe);
+          //  .data(function (d) {
+          //    return d.value ;
+          //  });
 
   dc.dataCount('count-info')
     .dimension(cf)
@@ -40,7 +43,6 @@ function generateringComponent(vardata, vargeodata){
 
 
       chCarte.width(450)
-             .height(330)
              .dimension(chCarteDim)
              .group(chCarteGroupe)
              .center([0,0])
