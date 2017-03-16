@@ -5,52 +5,41 @@ function generateringComponent(vardata, vargeodata){
   var lookUp = genLookup(vargeodata) ;
 
 
-  var chPhase = dc.rowChart('#phase') ;
-  var chTrend = dc.rowChart('#trend') ;
+  //var chPhase = dc.rowChart('#phase') ;
+  var chTrend = dc.rowChart('#phase') ;
   var chCarte = dc.leafletChoroplethChart('#carte') ;
 
   var cf = crossfilter(vardata);
   var all = cf.groupAll();
 
   // graphe des phases
-    var chPhaseDim = cf.dimension(function(d){ return d.country}) ;
-    var chPhaseGroupe = chPhaseDim.group().reduceSum( function (d) { return d.phase1}) ;
+    var chPhaseDim = cf.dimension(function(d){ return d.rowca2}) ;
+    var chPhaseGroupe = chPhaseDim.group().reduceSum( function (d) { return d.valeur}) ;
 
   //graphe trend
 
-    var chTrendDim = cf.dimension(function (d) { return d.rowcacode2}) ;
-    var chTrendGroupe = chTrendDim.group().reduceSum( function (d) { return d.phase2}) ;
+    var chTrendDim = cf.dimension(function (d) { return d.phase}) ;
+    var chTrendGroupe = chTrendDim.group().reduceSum( function (d) { return d.valeur}) ;
 
   // carte
 
-    var chCarteDim = cf.dimension(function (d) { return d.rowcacode2}) ;
-    var chCarteGroupe = chCarteDim.group().reduceSum( function (d) { return d.phase1}) ;
+    var chCarteDim = cf.dimension(function (d) { return d.rowca2}) ;
+    var chCarteGroupe = chCarteDim.group().reduceSum( function (d) { return d.valeur}) ;
 
-    // function graphePerLocation(code) {
-    //   chCarteDim.filter(code);
-    //
-    //   var ndx = crossfilter(chCarteDim.top(Infinity));
-    //
-    //   var dimLoc = ndx.dimension(function(d){return  d.phase1});
-    //   var groupeLoc = dimLoc.group().reduceSum(function(d) { return d.value});
-    //
-    //   chTrend.dimension(dimLoc)
-    //         .group(groupeLoc);
-    //   return null;
-    // }
 
-    chPhase.width(450)
-              .height(230)
-              .dimension(chPhaseDim)
-              .group(chPhaseGroupe) ;
+    // chPhase.width(550)
+    //           .height(230)
+    //           .dimension(chPhaseDim)
+    //           .group(chPhaseGroupe) ;
 
-    chTrend.width(450)
-           .height(230)
+    chTrend.width(550)
+           .height(300)
            .dimension(chTrendDim)
            .group(chTrendGroupe)
-           .data(function (group) {
-              return group.top(5) ;
-            });
+           .ordinalColors(['#A8E4A8','#F9E43C','#E4771F']);
+          //  .data(function (group) {
+          //     return group.top(5) ;
+          //   });
            //.x(d3.scale.linear().domain([1,9]));
 
   dc.dataCount('count-info')
@@ -113,7 +102,7 @@ function generateringComponent(vardata, vargeodata){
 
 var dataCall = $.ajax({
     type: 'GET',
-    url: 'data/ch.json',
+    url: 'data/dat.json',
     dataType: 'json',
 });
 
